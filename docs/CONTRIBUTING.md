@@ -1087,7 +1087,7 @@ When reviewing code, check for:
 - ✅ Follows naming conventions
 - ✅ Includes appropriate comments/documentation
 - ✅ Has tests covering new functionality
-- ✅ No console.log statements (use console.warn or console.error)
+- ✅ No console.log statements (use debug logger instead)
 - ✅ Proper error handling
 - ✅ Uses existing utilities/helpers where applicable
 - ✅ TypeScript types are specific (not `any`)

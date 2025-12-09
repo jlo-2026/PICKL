@@ -54,9 +54,12 @@ Given('I am on the login page', async function (this: ICustomWorld) {
 **❌ Wrong:**
 
 ```typescript
+import Debug from 'debug'
+const debug = Debug('framework:pages')
+
 async enterUsername(username: string) {
   this.usernameInput.fill(username).then(() => {
-    console.log('Filled username')
+    debug('Filled username')
   })
 }
 ```
@@ -64,9 +67,12 @@ async enterUsername(username: string) {
 **✅ Correct:**
 
 ```typescript
+import Debug from 'debug'
+const debug = Debug('framework:pages')
+
 async enterUsername(username: string) {
   await this.usernameInput.fill(username)
-  console.log('Filled username')
+  debug('Filled username')
 }
 ```
 

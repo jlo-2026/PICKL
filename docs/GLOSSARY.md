@@ -361,8 +361,11 @@ Cucumber's internal representation of a scenario after it's been parsed. Include
 **Usage:** Accessed in hooks to get scenario metadata.
 
 ```typescript
+import Debug from 'debug'
+const debug = Debug('framework:hooks')
+
 Before(async function (this: ICustomWorld, { pickle }) {
-  console.log(`Starting scenario: ${pickle.name}`)
+  debug(`Starting scenario: ${pickle.name}`)
 })
 ```
 

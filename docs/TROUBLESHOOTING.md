@@ -216,7 +216,10 @@ Received string:    "Your username is invalid!"
 **Debug Steps**:
 
 ```typescript
-// Add console.log to see actual value
+// Use debug logger to see actual values
+import Debug from 'debug'
+const debug = Debug('test:steps')
+
 Then(
   'I should see a success message {string}',
   async function (this: ICustomWorld, expectedMessage: string) {
@@ -224,8 +227,8 @@ Then(
     const loginPage = new LoginPage(page)
     const actualMessage = await loginPage.getFlashMessage()
 
-    console.log('Expected:', expectedMessage)
-    console.log('Actual:', actualMessage)
+    debug('Expected:', expectedMessage)
+    debug('Actual:', actualMessage)
 
     expect(actualMessage).toContain(expectedMessage)
   },
@@ -864,19 +867,22 @@ Set breakpoints and press F5!
 
 ---
 
-### Technique 8: Console Logging
+### Technique 8: Debug Logging
 
 ```typescript
-// Add strategic console.logs
+// Use debug logger for strategic logging
+import Debug from 'debug'
+const debug = Debug('test:steps')
+
 Then('I should see success message', async function (this: ICustomWorld) {
   const page = getPage(this)
   const loginPage = new LoginPage(page)
 
-  console.log('Current URL:', page.url())
-  console.log('Page title:', await page.title())
+  debug('Current URL:', page.url())
+  debug('Page title:', await page.title())
 
   const message = await loginPage.getFlashMessage()
-  console.log('Flash message:', message)
+  debug('Flash message:', message)
 
   expect(message).toContain('success')
 })
@@ -920,7 +926,7 @@ viewport: { width: 1280, height: 720 }
 2. **Enable video recording**: Already enabled in hooks
 3. **Add more explicit waits**: Replace implicit waits
 4. **Check for race conditions**: Look for missing awaits
-5. **Review timing logs**: Add timestamps to console.logs
+5. **Review timing logs**: Add timestamps to debug logs
 6. **Use trace viewer**: Check timeline of actions
 
 ---

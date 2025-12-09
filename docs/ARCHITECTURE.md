@@ -500,15 +500,19 @@ testRunStarted
    ```
 
 4. **Custom Summary**:
+
    ```typescript
+   import Debug from 'debug'
+   const debug = Debug('framework:formatter')
+
    logTestRunFinished() {
-     console.log('\n' + '='.repeat(50))
-     console.log('Test Execution Summary:')
-     console.log('='.repeat(50))
-     console.log(`Scenarios: ${this.scenariosPassed} passed, ${this.scenariosFailed} failed, ${this.scenariosSkipped} skipped (${this.totalScenarios} total)`)
-     console.log(`Steps: ${this.passedCount} passed, ${this.failedCount} failed, ${this.skippedCount} skipped (${this.totalSteps} total)`)
-     console.log(`Duration: ${duration}s`)
-     console.log('='.repeat(50))
+     debug('\n' + '='.repeat(50))
+     debug('Test Execution Summary:')
+     debug('='.repeat(50))
+     debug(`Scenarios: ${this.scenariosPassed} passed, ${this.scenariosFailed} failed, ${this.scenariosSkipped} skipped (${this.totalScenarios} total)`)
+     debug(`Steps: ${this.passedCount} passed, ${this.failedCount} failed, ${this.skippedCount} skipped (${this.totalSteps} total)`)
+     debug(`Duration: ${duration}s`)
+     debug('='.repeat(50))
    }
    ```
 
