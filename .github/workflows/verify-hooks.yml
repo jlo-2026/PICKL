@@ -102,8 +102,8 @@ jobs:
           echo "Testing hook on feature branch..."
           git checkout -b test-hook-branch
 
-          # The hook should allow this commit
-          if git commit -m "test: verify hook allows commits on feature branch" --no-verify; then
+          # The hook should allow this commit (no --no-verify to actually test the hook)
+          if git commit -m "test: verify hook allows commits on feature branch"; then
             echo "✅ Hook correctly allows commits on feature branch"
           else
             echo "❌ Hook incorrectly blocked commit on feature branch"
