@@ -73,7 +73,7 @@ else
 fi
 
 # Check if Husky is installed
-if ! command -v husky >/dev/null 2>&1 && ! npx husky --version >/dev/null 2>&1; then
+if ! command -v husky >/dev/null 2>&1 || ! npx husky --version >/dev/null 2>&1; then
   echo "⚠️  Warning: Husky may not be installed properly"
   echo "   Run 'npm install' to ensure Husky is installed"
 fi
