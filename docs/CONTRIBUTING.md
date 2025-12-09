@@ -398,6 +398,7 @@ npm run lint
 - Unused variables/imports
 - Type safety issues
 - Best practice violations
+- Line ending consistency (enforces LF)
 
 **Auto-fix issues:**
 
@@ -425,6 +426,7 @@ npm run format
 - JavaScript/TypeScript files (`.js`, `.ts`)
 - JSON configuration files
 - Markdown documentation files
+- Line endings (converts to LF)
 
 **When to use:**
 

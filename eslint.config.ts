@@ -44,6 +44,7 @@ export default tseslint.config(
       'no-var': 'error',
       eqeqeq: ['error', 'always'],
       curly: ['error', 'all'],
+      'linebreak-style': ['error', 'unix'],
 
       // Test-specific allowances
       '@typescript-eslint/no-non-null-assertion': 'off', // Useful in test assertions
