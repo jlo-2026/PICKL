@@ -38,6 +38,9 @@
   },
   "author": "Jed Aureus Gonzales",
   "license": "MIT",
+  "overrides": {
+    "semver": "^7.6.0"
+  },
   "devDependencies": {
     "@cucumber/cucumber": "^12.2.0",
     "@playwright/test": "^1.56.1",
