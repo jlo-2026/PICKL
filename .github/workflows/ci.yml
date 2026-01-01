@@ -51,8 +51,7 @@ jobs:
           fi
 
           # Get the list of commits in this PR
-          git fetch origin ${{ github.base_ref }}
-          COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%H")
+          COMMITS=$(git log "refs/remotes/origin/${{ github.base_ref }}"..HEAD --pretty=format:"%H")
 
           # Conventional Commits regex pattern
           # Format: type(scope): description
