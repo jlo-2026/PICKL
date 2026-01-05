@@ -250,11 +250,26 @@ jobs:
       - name: Generate coverage summary
         if: always()
         run: |
-          if [ -f coverage/coverage-summary.json ]; then
-            echo "## 📊 Coverage Summary" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            cat coverage/coverage-summary.json | jq -r '.total | "- **Lines:** \(.lines.pct)%\n- **Statements:** \(.statements.pct)%\n- **Functions:** \(.functions.pct)%\n- **Branches:** \(.branches.pct)%"' >> $GITHUB_STEP_SUMMARY
+          if [ ! -f coverage/coverage-summary.json ]; then
+            echo "⚠️ Coverage summary file not found" >> $GITHUB_STEP_SUMMARY
+            exit 0
           fi
+
+          # Check if jq is available
+          if ! command -v jq &> /dev/null; then
+            echo "⚠️ jq not installed, skipping coverage summary" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          # Parse and display coverage summary
+          if ! SUMMARY=$(jq -r '.total | "- **Lines:** \(.lines.pct)%\n- **Statements:** \(.statements.pct)%\n- **Functions:** \(.functions.pct)%\n- **Branches:** \(.branches.pct)%"' coverage/coverage-summary.json 2>&1); then
+            echo "⚠️ Failed to parse coverage summary: $SUMMARY" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          echo "## 📊 Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
   verify-hooks:
     name: Verify Git Hooks
