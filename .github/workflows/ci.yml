@@ -503,13 +503,31 @@ jobs:
             // Add unique marker for this OS
             comment += `\n\n<!-- test-results-${os} -->`;
 
-            // Find existing comment for this specific OS
+            // Find existing comments
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
 
+            // Clean up old comment without OS marker (only once, by ubuntu)
+            if (os === 'ubuntu-latest') {
+              const oldComment = comments.find(comment =>
+                comment.user.login === 'github-actions[bot]' &&
+                comment.body.includes('Test Results') &&
+                !comment.body.includes('<!-- test-results-')
+              );
+              if (oldComment) {
+                await github.rest.issues.deleteComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: oldComment.id
+                });
+                console.log('Deleted old pre-multi-OS comment');
+              }
+            }
+
+            // Find existing comment for this specific OS
             const botComment = comments.find(comment =>
               comment.user.login === 'github-actions[bot]' &&
               comment.body.includes(`<!-- test-results-${os} -->`)
