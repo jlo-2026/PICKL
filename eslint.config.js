@@ -2,7 +2,7 @@ import eslint from '@eslint/js'
 import prettierConfig from 'eslint-config-prettier'
 import tseslint from 'typescript-eslint'
 
-export default tseslint.config(
+export default [
   // Base ESLint recommended rules
   eslint.configs.recommended,
 
@@ -12,11 +12,14 @@ export default tseslint.config(
   // Prettier config to disable conflicting rules
   prettierConfig,
 
-  // TypeScript files WITH type checking (excluding config files)
+  // TypeScript files WITH type checking
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
+
+  // Custom rules for TypeScript files
   {
     files: ['**/*.ts'],
-    ignores: ['eslint.config.ts', '*.config.ts', 'scripts/generate-report.ts', 'types/*.d.ts'],
-    extends: [...tseslint.configs.recommendedTypeChecked, ...tseslint.configs.stylisticTypeChecked],
+    ignores: ['*.config.ts', 'scripts/generate-report.ts', 'types/*.d.ts'],
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
@@ -99,4 +102,4 @@ export default tseslint.config(
       'package-lock.json',
     ],
   },
-)
+]
