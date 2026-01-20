@@ -40,8 +40,9 @@ So you want to start doing automation? Well, you came to the right place! Follow
 
 ### 4. Clone the repository
 
-- Go to the repository on GitHub, and click on the Code button
-- Copy the git command from the dropdown and execute it on your local. As of writing, the command is `git clone git@github.com:jedau/PICKL.git`
+- Go to the repository on GitHub, and click on the `Fork` button
+- On your forked repository, click on the `Code` button
+- Copy the git command from the dropdown and execute it on your local. As of writing, the command is `git clone git@github.com:<YOUR-USERNAME>/PICKL.git`
 - If you're in the terminal, make sure that you're in the directory where you want the repository to be located
 - Once you've cloned the repository, go into that directory (`cd PICKL`) and configure your Git credentials using the following commands:
 
