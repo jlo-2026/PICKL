@@ -282,8 +282,6 @@ jobs:
                   .failed_without_fail += 1 |
                   .names += [$scenario.name]
                 end
-              elif ($scenario.tags[]?.name == "@fail") then
-                .fail_tagged += 1
               else . end
             ) | "\(.total)\t\(.failed)\t\(.fail_tagged)\t\(.failed_without_fail)\t(.names | join("\n  - "))"
           ' test-results/cucumber-report.json)

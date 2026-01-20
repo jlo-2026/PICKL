@@ -127,8 +127,8 @@ git add --renormalize .
 # Commit the normalized files
 git commit -m "chore: normalize line endings to LF"
 
-# Push the changes to your fork
-git push origin main
+# Push the changes to your current branch
+git push origin HEAD
 ```
 
 **Why this is needed:**
