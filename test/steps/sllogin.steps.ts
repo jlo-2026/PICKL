@@ -1,6 +1,6 @@
 import { Given, Then, When } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
-import { LoginPage } from '../../pages/LoginPage.js'
+import { LoginPage } from '../../pages/SLLoginPage.js'
 import { ICustomWorld } from '../support/world.js'
 
 Given('I am on the login page', async function (this: ICustomWorld) {
@@ -39,28 +39,19 @@ When('I click the login button', async function (this: ICustomWorld) {
   await loginPage.clickLogin()
 })
 
-Then('I should see the secure area page', async function (this: ICustomWorld) {
+Then('I should see the inventory page', async function (this: ICustomWorld) {
   if (!this.page) {
     throw new Error('Page is not initialized')
   }
-
-  const loginPage = new LoginPage(this.page)
-  const isSecureArea = await loginPage.isOnSecureArea()
-  expect(isSecureArea).toBeTruthy()
+  await expect(this.page).toHaveURL(/inventory.html/)
 })
 
-Then(
-  'I should see a success message {string}',
-  async function (this: ICustomWorld, expectedMessage: string) {
-    if (!this.page) {
-      throw new Error('Page is not initialized')
-    }
-
-    const loginPage = new LoginPage(this.page)
-    const flashMessage = await loginPage.getFlashMessage()
-    expect(flashMessage).toContain(expectedMessage)
-  },
-)
+Then('I should see the "Products" heading', async function (this: ICustomWorld) {
+  if (!this.page) {
+    throw new Error('Page is not initialized')
+  }
+  await expect(this.page.getByText('Products')).toBeVisible()
+})
 
 Then(
   'I should see an error message {string}',
@@ -70,8 +61,8 @@ Then(
     }
 
     const loginPage = new LoginPage(this.page)
-    const flashMessage = await loginPage.getFlashMessage()
-    expect(flashMessage).toContain(expectedMessage)
+    const errorMessage = await loginPage.getErrorMessage()
+    expect(errorMessage).toContain(expectedMessage)
   },
 )
 
@@ -81,6 +72,5 @@ Then('I should remain on the login page', async function (this: ICustomWorld) {
   }
 
   const loginPage = new LoginPage(this.page)
-  const isLoginPage = await loginPage.isOnLoginPage()
-  expect(isLoginPage).toBeTruthy()
+  expect(await loginPage.isOnLoginPage()).toBeTruthy()
 })
