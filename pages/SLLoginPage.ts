@@ -2,30 +2,33 @@ import { Locator, Page } from '@playwright/test'
 
 /**
  * Page Object Model for the Login page
- * URL: https://the-internet.herokuapp.com/login
+ * URL: https://www.saucedemo.com/
  */
 export class LoginPage {
   readonly page: Page
   readonly usernameInput: Locator
   readonly passwordInput: Locator
   readonly loginButton: Locator
-  readonly flashMessage: Locator
   readonly pageHeading: Locator
+  readonly errorMessage: Locator
 
   constructor(page: Page) {
     this.page = page
-    this.usernameInput = page.locator('#username')
-    this.passwordInput = page.locator('#password')
-    this.loginButton = page.locator('button[type="submit"]')
-    this.flashMessage = page.locator('#flash')
-    this.pageHeading = page.locator('h2')
+    this.usernameInput = page.getByRole('textbox', { name: 'Username' })
+    this.passwordInput = page.getByRole('textbox', { name: 'Password' })
+    this.loginButton = page.getByRole('button', { name: 'Login' })
+    this.pageHeading = page.locator('.login_logo')
+    //element locator for the error message
+    // this.errorMessage = page.getByRole('heading', {
+    //   name: /(Epic sadface: Username and password do not match any user in this service|Epic sadface: Username is required|Epic sadface: Sorry, this user has been locked out.|Epic sadface: Password is required)/,
+    // })
+    this.errorMessage = page.getByRole('heading', { name: /^Epic sadface:/ })
   }
-
   /**
    * Navigate to the login page
    */
   async goto() {
-    await this.page.goto('/login')
+    await this.page.goto('/')
   }
 
   /**
@@ -66,17 +69,9 @@ export class LoginPage {
    * Get the flash message text (success or error)
    * @returns The flash message text without the close button
    */
-  async getFlashMessage(): Promise<string> {
-    const text = await this.flashMessage.textContent()
+  async getErrorMessage(): Promise<string> {
+    const text = await this.errorMessage.textContent()
     return text?.replace('×', '').trim() ?? ''
-  }
-
-  /**
-   * Get the current page heading text
-   * @returns The page heading text
-   */
-  async getPageHeading(): Promise<string> {
-    return (await this.pageHeading.textContent()) ?? ''
   }
 
   /**
@@ -84,16 +79,12 @@ export class LoginPage {
    * @returns True if on login page, false otherwise
    */
   async isOnLoginPage(): Promise<boolean> {
-    const heading = await this.getPageHeading()
-    return heading.includes('Login Page')
-  }
-
-  /**
-   * Check if currently on the secure area page
-   * @returns True if on secure area, false otherwise
-   */
-  async isOnSecureArea(): Promise<boolean> {
-    const heading = await this.getPageHeading()
-    return heading.includes('Secure Area')
+    const pageHeadingTxt = (await this.pageHeading.textContent()) ?? ''
+    return (
+      (await this.loginButton.isVisible()) &&
+      (await this.usernameInput.isVisible()) &&
+      (await this.passwordInput.isVisible()) &&
+      pageHeadingTxt.includes('Swag Labs')
+    )
   }
 }
